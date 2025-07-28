@@ -41,6 +41,6 @@ public class OwnerEntity {
     private Collection<PetEntity> pets;
 
     @OneToMany(mappedBy = "owner")
-    private Collection<ReminderEntity> reminderEntities;
+    private Collection<ReminderEntity> reminder;
 
 }
