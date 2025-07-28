@@ -8,14 +8,14 @@ import lombok.ToString;
 
 import java.sql.Date;
 import java.util.Collection;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Entity
-public class Veterinarian {
+@Table(name = "veterinarian")
+public class VeterinarianEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -51,9 +51,9 @@ public class Veterinarian {
     private Date doregistered;
 
     @OneToMany(mappedBy = "veterinarian")
-    private Collection<Appointment> appointments;
+    private Collection<AppointmentEntity> appointments;
 
     @OneToMany(mappedBy = "veterinarian")
-    private Collection<Medicalrecord> medicalrecords;
+    private Collection<MedicalrecordEntity> medicalrecords;
 
 }

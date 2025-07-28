@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Collection;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Entity
-public class Owner {
+@Table(name = "owner")
+public class OwnerEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -38,9 +38,9 @@ public class Owner {
     private String phone;
 
     @OneToMany(mappedBy = "owner")
-    private Collection<Pet> pets;
+    private Collection<PetEntity> pets;
 
     @OneToMany(mappedBy = "owner")
-    private Collection<Reminder> reminders;
+    private Collection<ReminderEntity> reminderEntities;
 
 }

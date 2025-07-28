@@ -1,10 +1,7 @@
 package edu.nugi.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -14,7 +11,8 @@ import java.util.Objects;
 @AllArgsConstructor
 @ToString
 @Entity
-public class Pettype {
+@Table(name = "gender")
+public class GenderEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -25,7 +23,7 @@ public class Pettype {
     @Column(name = "name")
     private String name;
 
-    @OneToMany(mappedBy = "pettype")
-    private Collection<Pet> pets;
+    @OneToMany(mappedBy = "gender")
+    private Collection<PetEntity> pets;
 
 }

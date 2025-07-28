@@ -8,14 +8,14 @@ import lombok.ToString;
 
 import java.sql.Date;
 import java.util.Collection;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Entity
-public class Pet {
+@Table(name = "pet")
+public class PetEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -35,21 +35,21 @@ public class Pet {
     private Date dob;
 
     @OneToMany(mappedBy = "pet")
-    private Collection<Appointment> appointments;
+    private Collection<AppointmentEntity> appointments;
 
     @OneToMany(mappedBy = "pet")
-    private Collection<Medicalrecord> medicalrecords;
+    private Collection<MedicalrecordEntity> medicalrecords;
 
     @ManyToOne
     @JoinColumn(name = "pettype_id", referencedColumnName = "id", nullable = false)
-    private Pettype pettype;
+    private PettypeEntity pettype;
 
     @ManyToOne
     @JoinColumn(name = "gender_id", referencedColumnName = "id", nullable = false)
-    private Gender gender;
+    private GenderEntity gender;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
-    private Owner owner;
+    private OwnerEntity owner;
 
 }

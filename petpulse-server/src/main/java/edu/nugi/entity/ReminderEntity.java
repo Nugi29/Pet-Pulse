@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.sql.Date;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Entity
-public class Reminder {
+@Table(name = "reminder")
+public class ReminderEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -43,6 +43,6 @@ public class Reminder {
 
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
-    private Owner owner;
+    private OwnerEntity owner;
 
 }

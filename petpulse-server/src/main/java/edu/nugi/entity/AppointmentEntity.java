@@ -9,14 +9,14 @@ import lombok.ToString;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Entity
-public class Appointment {
+@Table(name = "appointment")
+public class AppointmentEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -45,9 +45,9 @@ public class Appointment {
 
     @ManyToOne
     @JoinColumn(name = "veterinarian_id", referencedColumnName = "id", nullable = false)
-    private Veterinarian veterinarian;
+    private VeterinarianEntity veterinarian;
 
     @ManyToOne
     @JoinColumn(name = "pet_id", referencedColumnName = "id", nullable = false)
-    private Pet pet;
+    private PetEntity pet;
 }

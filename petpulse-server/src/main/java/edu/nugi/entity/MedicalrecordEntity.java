@@ -7,15 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.sql.Date;
-import java.util.Arrays;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Entity
-public class Medicalrecord {
+@Table(name = "medicalrecord")
+public class MedicalrecordEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -44,10 +43,10 @@ public class Medicalrecord {
 
     @ManyToOne
     @JoinColumn(name = "pet_id", referencedColumnName = "id", nullable = false)
-    private Pet pet;
+    private PetEntity pet;
 
     @ManyToOne
     @JoinColumn(name = "veterinarian_id", referencedColumnName = "id", nullable = false)
-    private Veterinarian veterinarian;
+    private VeterinarianEntity veterinarian;
 
 }
