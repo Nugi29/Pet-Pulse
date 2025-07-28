@@ -1,5 +1,6 @@
 package edu.nugi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,8 +25,5 @@ public class PettypeEntity {
     @Basic
     @Column(name = "name")
     private String name;
-
-    @OneToMany(mappedBy = "pettype")
-    private Collection<PetEntity> pets;
 
 }

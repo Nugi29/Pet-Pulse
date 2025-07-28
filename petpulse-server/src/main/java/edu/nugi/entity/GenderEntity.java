@@ -1,5 +1,6 @@
 package edu.nugi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,6 +8,8 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -22,8 +25,5 @@ public class GenderEntity {
     @Basic
     @Column(name = "name")
     private String name;
-
-    @OneToMany(mappedBy = "gender")
-    private Collection<PetEntity> pets;
 
 }

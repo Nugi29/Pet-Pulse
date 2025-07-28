@@ -1,5 +1,7 @@
 package edu.nugi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -16,31 +19,24 @@ import java.util.Collection;
 @Table(name = "owner")
 public class OwnerEntity {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Basic
-    @Column(name = "name")
     private String name;
-
-    @Basic
-    @Column(name = "email")
     private String email;
-
-    @Basic
-    @Column(name = "password")
     private String password;
-
-    @Basic
-    @Column(name = "phone")
     private String phone;
+    private String role;
 
-    @OneToMany(mappedBy = "owner")
-    private Collection<PetEntity> pets;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<PetEntity> pets;
 
-    @OneToMany(mappedBy = "owner")
-    private Collection<ReminderEntity> reminder;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<ReminderEntity> reminders;
 
 }

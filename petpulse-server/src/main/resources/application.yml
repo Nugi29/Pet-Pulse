@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/customer_manage
+    url: jdbc:mysql://localhost:3306/petpulse
     username: root
     password: 1234
 

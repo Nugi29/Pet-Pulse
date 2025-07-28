@@ -1,5 +1,8 @@
 package edu.nugi.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +11,7 @@ import lombok.ToString;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,39 +21,38 @@ import java.util.Collection;
 @Table(name = "pet")
 public class PetEntity {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Basic
-    @Column(name = "name")
     private String name;
-
-    @Basic
-    @Column(name = "breed")
     private String breed;
-
-    @Basic
-    @Column(name = "dob")
     private Date dob;
 
-    @OneToMany(mappedBy = "pet")
-    private Collection<AppointmentEntity> appointments;
+    @Lob
+    private byte[] photo;
 
-    @OneToMany(mappedBy = "pet")
-    private Collection<MedicalrecordEntity> medicalrecords;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private OwnerEntity owner;
 
     @ManyToOne
-    @JoinColumn(name = "pettype_id", referencedColumnName = "id", nullable = false)
-    private PettypeEntity pettype;
-
-    @ManyToOne
-    @JoinColumn(name = "gender_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "gender_id")
     private GenderEntity gender;
 
     @ManyToOne
-    @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
-    private OwnerEntity owner;
+    @JoinColumn(name = "pettype_id")
+    private PettypeEntity petType;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<AppointmentEntity> appointments;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<MedicalrecordEntity> medicalRecords;
 
 }

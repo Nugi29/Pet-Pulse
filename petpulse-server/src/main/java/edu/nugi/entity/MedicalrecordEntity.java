@@ -1,5 +1,7 @@
 package edu.nugi.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,37 +18,26 @@ import java.sql.Date;
 @Table(name = "medicalrecord")
 public class MedicalrecordEntity {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Basic
     @Column(name = "visit_date")
     private Date visitDate;
 
-    @Basic
-    @Column(name = "diagnosis")
     private String diagnosis;
-
-    @Basic
-    @Column(name = "treatment")
     private String treatment;
-
-    @Basic
-    @Column(name = "vaccinations")
     private String vaccinations;
 
-    @Basic
-    @Column(name = "file")
+    @Lob
     private byte[] file;
 
+    @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "pet_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "pet_id")
     private PetEntity pet;
 
     @ManyToOne
-    @JoinColumn(name = "veterinarian_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "veterinarian_id")
     private VeterinarianEntity veterinarian;
-
 }
