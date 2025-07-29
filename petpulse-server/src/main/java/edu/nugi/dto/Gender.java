@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Collection;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,7 +15,5 @@ public class Gender {
     private Integer id;
 
     private String name;
-
-    private Collection<Pet> pets;
 
 }
