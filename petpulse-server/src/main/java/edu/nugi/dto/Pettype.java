@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Collection;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,9 +13,6 @@ import java.util.Collection;
 public class Pettype {
 
     private Integer id;
-
     private String name;
-
-    private Collection<Pet> pets;
 
 }
