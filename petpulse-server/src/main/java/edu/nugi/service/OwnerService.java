@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface OwnerService {
 
-    Owner createOwner(Owner owner);
+    void createOwner(Owner owner);
 
     Owner getOwnerById(Integer id);
 

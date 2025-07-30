@@ -34,10 +34,8 @@ public class Veterinarian {
 
     private Date doregistered;
 
-    @JsonManagedReference
     private Collection<Appointment> appointments;
 
-    @JsonManagedReference
     private Collection<Medicalrecord> medicalrecords;
 
 }

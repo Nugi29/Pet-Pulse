@@ -27,7 +27,7 @@ public class Reminder {
 
     private String status;
 
-    @JsonBackReference
+    @JsonBackReference("reminder-owner")
     private Owner owner;
 
 }

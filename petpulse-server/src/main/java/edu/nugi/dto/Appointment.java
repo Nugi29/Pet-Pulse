@@ -29,9 +29,9 @@ public class Appointment {
 
     private Timestamp createdAt;
 
-    @JsonBackReference
+
     private Veterinarian veterinarian;
 
-    @JsonBackReference
+
     private Pet pet;
 }

@@ -1,5 +1,6 @@
 package edu.nugi.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,10 +42,12 @@ public class MedicalrecordEntity {
     @Column(name = "file")
     private byte[] file;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "pet_id", referencedColumnName = "id", nullable = false)
     private PetEntity pet;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "veterinarian_id", referencedColumnName = "id", nullable = false)
     private VeterinarianEntity veterinarian;

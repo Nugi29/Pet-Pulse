@@ -26,5 +26,9 @@ public class OwnerController {
         return service.getOwnerById(id);
     }
 
+    @PostMapping("/create")
+    public void createOwner(@RequestBody Owner owner) {
+        service.createOwner(owner);
+    }
 
 }

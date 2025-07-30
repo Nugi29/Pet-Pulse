@@ -1,5 +1,6 @@
 package edu.nugi.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,9 +39,12 @@ public class OwnerEntity {
     private String phone;
 
     @OneToMany(mappedBy = "owner")
+    @JsonManagedReference
     private Collection<PetEntity> pets;
 
     @OneToMany(mappedBy = "owner")
+    @JsonManagedReference
     private Collection<ReminderEntity> reminder;
+
 
 }

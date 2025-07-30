@@ -1,5 +1,6 @@
 package edu.nugi.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -50,9 +51,11 @@ public class VeterinarianEntity {
     @Column(name = "doregistered")
     private Date doregistered;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "veterinarian")
     private Collection<AppointmentEntity> appointments;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "veterinarian")
     private Collection<MedicalrecordEntity> medicalrecords;
 

@@ -30,10 +30,10 @@ public class Medicalrecord {
     @JsonIgnore
     private byte[] file;
 
-    @JsonBackReference
+
     private PetEntity pet;
 
-    @JsonBackReference
+
     private Veterinarian veterinarian;
 
 }

@@ -19,8 +19,11 @@ public class OwnerServiceImpl implements OwnerService {
     final ModelMapper mapper;
 
     @Override
-    public Owner createOwner(Owner owner) {
-        return null;
+    public void createOwner(Owner owner) {
+//        repository.save(mapper.map(owner, OwnerEntity.class));
+        OwnerEntity ownerEntity = mapper.map(owner, OwnerEntity.class);
+        repository.save(ownerEntity);
+        System.out.println("Owner created: " + ownerEntity);
     }
 
     @Override

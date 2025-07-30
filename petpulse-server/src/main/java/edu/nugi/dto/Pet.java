@@ -25,17 +25,17 @@ public class Pet {
 
     private Date dob;
 
-    @JsonManagedReference
+
     private Collection<Appointment> appointments;
 
-    @JsonManagedReference
+
     private Collection<Medicalrecord> medicalrecords;
 
     private Pettype pettype;
 
     private Gender gender;
 
-    @JsonBackReference
+
     private Owner owner;
 
 }
