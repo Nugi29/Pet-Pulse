@@ -1,5 +1,7 @@
 package edu.nugi.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,14 +25,17 @@ public class Pet {
 
     private Date dob;
 
+    @JsonManagedReference
     private Collection<Appointment> appointments;
 
+    @JsonManagedReference
     private Collection<Medicalrecord> medicalrecords;
 
     private Pettype pettype;
 
     private Gender gender;
 
+    @JsonBackReference
     private Owner owner;
 
 }

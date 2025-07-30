@@ -1,7 +1,5 @@
 package edu.nugi.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,22 +16,33 @@ import java.sql.Date;
 @Table(name = "reminder")
 public class ReminderEntity {
 
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id")
     private Integer id;
 
+    @Basic
+    @Column(name = "title")
     private String title;
+
+    @Basic
+    @Column(name = "message")
     private String message;
 
+    @Basic
     @Column(name = "reminder_date")
     private Date reminderDate;
 
+    @Basic
+    @Column(name = "type")
     private String type;
+
+    @Basic
+    @Column(name = "status")
     private String status;
 
-    @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
     private OwnerEntity owner;
 
 }

@@ -1,6 +1,5 @@
 package edu.nugi.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +8,6 @@ import lombok.ToString;
 
 import java.sql.Date;
 import java.util.Collection;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,26 +17,43 @@ import java.util.List;
 @Table(name = "veterinarian")
 public class VeterinarianEntity {
 
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "id")
     private Integer id;
 
+    @Basic
+    @Column(name = "name")
     private String name;
-    private String email;
-    private String password;
-    private String phone;
-    private String specialization;
-    private Boolean available;
 
+    @Basic
+    @Column(name = "email")
+    private String email;
+
+    @Basic
+    @Column(name = "password")
+    private String password;
+
+    @Basic
+    @Column(name = "phone")
+    private String phone;
+
+    @Basic
+    @Column(name = "specialization")
+    private String specialization;
+
+    @Basic
+    @Column(name = "available")
+    private Byte available;
+
+    @Basic
     @Column(name = "doregistered")
     private Date doregistered;
 
-    @OneToMany(mappedBy = "veterinarian", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private List<AppointmentEntity> appointments;
+    @OneToMany(mappedBy = "veterinarian")
+    private Collection<AppointmentEntity> appointments;
 
-    @OneToMany(mappedBy = "veterinarian", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private List<MedicalrecordEntity> medicalRecords;
+    @OneToMany(mappedBy = "veterinarian")
+    private Collection<MedicalrecordEntity> medicalrecords;
 
 }

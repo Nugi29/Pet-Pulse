@@ -1,5 +1,6 @@
 package edu.nugi.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,9 @@ public class Appointment {
 
     private Timestamp createdAt;
 
+    @JsonBackReference
     private Veterinarian veterinarian;
 
+    @JsonBackReference
     private Pet pet;
 }

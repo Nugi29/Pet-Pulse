@@ -1,5 +1,7 @@
 package edu.nugi.dto;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.nugi.entity.PetEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,10 +27,13 @@ public class Medicalrecord {
 
     private String vaccinations;
 
+    @JsonIgnore
     private byte[] file;
 
+    @JsonBackReference
     private PetEntity pet;
 
+    @JsonBackReference
     private Veterinarian veterinarian;
 
 }

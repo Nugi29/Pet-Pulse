@@ -1,5 +1,7 @@
 package edu.nugi.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +23,7 @@ public class Veterinarian {
 
     private String email;
 
+    @JsonIgnore
     private String password;
 
     private String phone;
@@ -31,8 +34,10 @@ public class Veterinarian {
 
     private Date doregistered;
 
+    @JsonManagedReference
     private Collection<Appointment> appointments;
 
+    @JsonManagedReference
     private Collection<Medicalrecord> medicalrecords;
 
 }
