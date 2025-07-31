@@ -1,0 +1,136 @@
+<div class="appointments-container">
+  <div class="header">
+    <h1>Appointment Management</h1>
+    <button class="btn btn-primary" (click)="showBookingForm = !showBookingForm">
+      {{ showBookingForm ? 'Cancel' : 'Book New Appointment' }}
+    </button>
+  </div>
+
+  <!-- Booking Form -->
+  <div class="form-container" *ngIf="showBookingForm">
+    <h2>Book New Appointment</h2>
+    <form (ngSubmit)="bookAppointment()" #appointmentForm="ngForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="pet">Select Pet *</label>
+          <select id="pet" [(ngModel)]="currentAppointment.pet" name="pet" required>
+            <option value="">Choose a pet</option>
+            <option *ngFor="let pet of pets" [ngValue]="pet">{{ pet.name }} ({{ pet.breed }})</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="veterinarian">Select Veterinarian *</label>
+          <select id="veterinarian" [(ngModel)]="currentAppointment.veterinarian" name="veterinarian" required>
+            <option value="">Choose a veterinarian</option>
+            <option *ngFor="let vet of availableVets" [ngValue]="vet">
+              Dr. {{ vet.name }} - {{ vet.specialization }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="date">Appointment Date *</label>
+          <input type="date" id="date" [(ngModel)]="currentAppointment.date" name="date" required>
+        </div>
+
+        <div class="form-group">
+          <label for="time">Appointment Time *</label>
+          <select id="time" [(ngModel)]="currentAppointment.time" name="time" required>
+            <option value="">Select time</option>
+            <option value="09:00">09:00 AM</option>
+            <option value="10:00">10:00 AM</option>
+            <option value="11:00">11:00 AM</option>
+            <option value="14:00">02:00 PM</option>
+            <option value="15:00">03:00 PM</option>
+            <option value="16:00">04:00 PM</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Notes</label>
+        <textarea id="notes" [(ngModel)]="currentAppointment.notes" name="notes" rows="3" 
+                  placeholder="Any special notes or concerns..."></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="!appointmentForm.form.valid">
+          Book Appointment
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancelBooking()">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Filter Controls -->
+  <div class="filter-container">
+    <div class="filter-group">
+      <label for="statusFilter">Filter by Status:</label>
+      <select id="statusFilter" [(ngModel)]="selectedStatus" (ngModelChange)="filterAppointments()">
+        <option value="">All Appointments</option>
+        <option value="scheduled">Scheduled</option>
+        <option value="completed">Completed</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Appointments List -->
+  <div class="appointments-grid">
+    <div class="appointment-card" *ngFor="let appointment of filteredAppointments" 
+         [class.completed]="appointment.status === 'completed'"
+         [class.cancelled]="appointment.status === 'cancelled'">
+      
+      <div class="appointment-header">
+        <div class="appointment-info">
+          <h3>{{ appointment.pet?.name }}</h3>
+          <p class="vet-name">Dr. {{ appointment.veterinarian?.name }}</p>
+        </div>
+        <span class="status-badge" [class]="'status-' + appointment.status">
+          {{ appointment.status | titlecase }}
+        </span>
+      </div>
+
+      <div class="appointment-details">
+        <div class="detail-item">
+          <strong>Date:</strong> {{ appointment.date | date:'fullDate' }}
+        </div>
+        <div class="detail-item">
+          <strong>Time:</strong> {{ appointment.time }}
+        </div>
+        <div class="detail-item">
+          <strong>Pet:</strong> {{ appointment.pet?.name }} ({{ appointment.pet?.breed }})
+        </div>
+        <div class="detail-item">
+          <strong>Veterinarian:</strong> Dr. {{ appointment.veterinarian?.name }}
+        </div>
+        <div class="detail-item">
+          <strong>Specialization:</strong> {{ appointment.veterinarian?.specialization }}
+        </div>
+        <div class="detail-item" *ngIf="appointment.notes">
+          <strong>Notes:</strong> {{ appointment.notes }}
+        </div>
+      </div>
+
+      <div class="appointment-actions" *ngIf="appointment.status === 'scheduled'">
+        <button class="btn btn-sm btn-success" (click)="updateStatus(appointment.id!, 'completed')">
+          Mark Complete
+        </button>
+        <button class="btn btn-sm btn-danger" (click)="cancelAppointment(appointment.id!)">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="filteredAppointments.length === 0">
+    <div class="empty-icon">📅</div>
+    <h3>No appointments found</h3>
+    <p *ngIf="selectedStatus">No {{ selectedStatus }} appointments at this time.</p>
+    <p *ngIf="!selectedStatus">No appointments scheduled yet.</p>
+    <button class="btn btn-primary" (click)="showBookingForm = true">Book Your First Appointment</button>
+  </div>
+</div>

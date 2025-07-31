@@ -1,5 +1,6 @@
 package edu.nugi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,11 +9,10 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Collection;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"pets", "reminder"})
 @Entity
 @Table(name = "owner")
 public class OwnerEntity {
@@ -38,13 +38,11 @@ public class OwnerEntity {
     @Column(name = "phone")
     private String phone;
 
+    @JsonManagedReference("owner-pet")
     @OneToMany(mappedBy = "owner")
-    @JsonManagedReference
     private Collection<PetEntity> pets;
 
+    @JsonManagedReference("owner-reminder")
     @OneToMany(mappedBy = "owner")
-    @JsonManagedReference
     private Collection<ReminderEntity> reminder;
-
-
 }

@@ -14,7 +14,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"owner", "appointments", "medicalrecords"})
 @Entity
 @Table(name = "pet")
 public class PetEntity {
@@ -24,17 +24,10 @@ public class PetEntity {
     @Column(name = "id")
     private Integer id;
 
-    @Basic
-    @Column(name = "name")
-    private String name;
-
-    @Basic
-    @Column(name = "breed")
-    private String breed;
-
-    @Basic
-    @Column(name = "dob")
-    private Date dob;
+    // ... other fields like name, breed, dob are fine ...
+    @Basic @Column(name = "name") private String name;
+    @Basic @Column(name = "breed") private String breed;
+    @Basic @Column(name = "dob") private Date dob;
 
     @ManyToOne
     @JoinColumn(name = "pettype_id", referencedColumnName = "id", nullable = false)
@@ -44,17 +37,16 @@ public class PetEntity {
     @JoinColumn(name = "gender_id", referencedColumnName = "id", nullable = false)
     private GenderEntity gender;
 
+    @JsonBackReference("owner-pet")
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id", nullable = false)
-    @JsonBackReference
     private OwnerEntity owner;
 
-    @JsonManagedReference
+    @JsonManagedReference("pet-appointment")
     @OneToMany(mappedBy = "pet")
     private Collection<AppointmentEntity> appointments;
 
-    @JsonManagedReference
+    @JsonManagedReference("pet-medicalrecord")
     @OneToMany(mappedBy = "pet")
     private Collection<MedicalrecordEntity> medicalrecords;
-
 }

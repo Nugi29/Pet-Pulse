@@ -45,11 +45,20 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public Owner updateOwner(Integer id, Owner updatedOwner) {
-        return null;
+        OwnerEntity existingOwnerEntity = repository.findById(id).orElseThrow(() -> new RuntimeException("Owner not found"));
+        mapper.map(updatedOwner, existingOwnerEntity);
+        OwnerEntity savedEntity = repository.save(existingOwnerEntity);
+        return mapper.map(savedEntity, Owner.class);
+
     }
 
     @Override
     public void deleteOwner(Integer id) {
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("Owner not found");
+        }
+        repository.deleteById(id);
+        System.out.println("Owner with ID " + id + " deleted successfully.");
 
     }
 }

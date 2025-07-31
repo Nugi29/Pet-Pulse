@@ -28,8 +28,10 @@ public class Owner {
 
     private String phone;
 
+    @JsonIgnore
     private Collection<PetEntity> pets;
 
+    @JsonIgnore
     @JsonManagedReference("reminder-owner")
     private Collection<Reminder> reminder;
 

@@ -25,17 +25,14 @@ public class Pet {
 
     private Date dob;
 
-
-    private Collection<Appointment> appointments;
-
-
-    private Collection<Medicalrecord> medicalrecords;
-
     private Pettype pettype;
 
     private Gender gender;
 
-
     private Owner owner;
+
+    private Collection<Appointment> appointments;
+
+    private Collection<Medicalrecord> medicalrecords;
 
 }

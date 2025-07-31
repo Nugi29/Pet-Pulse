@@ -1,6 +1,7 @@
 package edu.nugi.dto;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,7 @@ public class Reminder {
 
     private String status;
 
-    @JsonBackReference("reminder-owner")
+    @JsonIgnore
     private Owner owner;
 
 }

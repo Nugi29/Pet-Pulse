@@ -1,5 +1,6 @@
 package edu.nugi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"appointments", "medicalrecords"})
 @Entity
 @Table(name = "veterinarian")
 public class VeterinarianEntity {
@@ -23,40 +24,20 @@ public class VeterinarianEntity {
     @Column(name = "id")
     private Integer id;
 
-    @Basic
-    @Column(name = "name")
-    private String name;
+    // ... other fields are fine ...
+    @Basic @Column(name = "name") private String name;
+    @Basic @Column(name = "email") private String email;
+    @Basic @Column(name = "password") private String password;
+    @Basic @Column(name = "phone") private String phone;
+    @Basic @Column(name = "specialization") private String specialization;
+    @Basic @Column(name = "available") private Byte available;
+    @Basic @Column(name = "doregistered") private Date doregistered;
 
-    @Basic
-    @Column(name = "email")
-    private String email;
-
-    @Basic
-    @Column(name = "password")
-    private String password;
-
-    @Basic
-    @Column(name = "phone")
-    private String phone;
-
-    @Basic
-    @Column(name = "specialization")
-    private String specialization;
-
-    @Basic
-    @Column(name = "available")
-    private Byte available;
-
-    @Basic
-    @Column(name = "doregistered")
-    private Date doregistered;
-
-    @JsonManagedReference
+    @JsonManagedReference("vet-appointment")
     @OneToMany(mappedBy = "veterinarian")
     private Collection<AppointmentEntity> appointments;
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "veterinarian")
     private Collection<MedicalrecordEntity> medicalrecords;
-
 }

@@ -1,0 +1,98 @@
+<div class="owners-container">
+  <div class="header">
+    <h1>Owner Management</h1>
+    <button class="btn btn-primary" (click)="showAddForm = !showAddForm">
+      {{ showAddForm ? 'Cancel' : 'Add New Owner' }}
+    </button>
+  </div>
+
+  <!-- Add Owner Form -->
+  <div class="form-container" *ngIf="showAddForm">
+    <h2>{{ editingOwner ? 'Edit Owner' : 'Add New Owner' }}</h2>
+    <form (ngSubmit)="saveOwner()" #ownerForm="ngForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Full Name *</label>
+          <input type="text" id="name" [(ngModel)]="currentOwner.name" name="name" 
+                 placeholder="Enter full name..." required>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" [(ngModel)]="currentOwner.phone" name="phone" 
+                 placeholder="+94 XX XXX XXXX" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" [(ngModel)]="currentOwner.email" name="email" 
+               placeholder="Enter email address..." required>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="!ownerForm.form.valid">
+          {{ editingOwner ? 'Update Owner' : 'Add Owner' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancelForm()">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Owners List -->
+  <div class="owners-grid">
+    <div class="owner-card" *ngFor="let owner of owners">
+      <div class="owner-header">
+        <div class="owner-info">
+          <h3>{{ owner.name }}</h3>
+          <p class="owner-id" *ngIf="owner.id">ID: {{ owner.id }}</p>
+        </div>
+        <div class="owner-actions">
+          <button class="btn btn-sm btn-secondary" (click)="editOwner(owner)">Edit</button>
+          <button class="btn btn-sm btn-danger" (click)="deleteOwner(owner.id!)" *ngIf="owner.id">Delete</button>
+        </div>
+      </div>
+
+      <div class="owner-details">
+        <div class="detail-item">
+          <strong>📧 Email:</strong> 
+          <a href="mailto:{{ owner.email }}">{{ owner.email }}</a>
+        </div>
+        <div class="detail-item">
+          <strong>📞 Phone:</strong> 
+          <a href="tel:{{ owner.phone }}">{{ owner.phone }}</a>
+        </div>
+        <div class="detail-item" *ngIf="owner.pets && owner.pets.length > 0">
+          <strong>🐾 Pets:</strong>
+          <div class="pets-list">
+            <span class="pet-chip" *ngFor="let pet of owner.pets">
+              {{ pet.name }} ({{ pet.breed }})
+            </span>
+          </div>
+        </div>
+        <div class="detail-item" *ngIf="!owner.pets || owner.pets.length === 0">
+          <strong>🐾 Pets:</strong>
+          <span class="no-pets">No pets registered</span>
+        </div>
+      </div>
+
+      <div class="owner-stats">
+        <div class="stat">
+          <strong>{{ owner.pets?.length || 0 }}</strong>
+          <span>Pets</span>
+        </div>
+        <div class="stat">
+          <strong>{{ owner.reminders?.length || 0 }}</strong>
+          <span>Reminders</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="owners.length === 0">
+    <div class="empty-icon">👤</div>
+    <h3>No owners found</h3>
+    <p>Start by adding the first pet owner to the system.</p>
+    <button class="btn btn-primary" (click)="showAddForm = true">Add First Owner</button>
+  </div>
+</div>

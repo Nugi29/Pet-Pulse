@@ -1,0 +1,129 @@
+<div class="medical-records-container">
+  <div class="header">
+    <h1>Medical Records</h1>
+    <button class="btn btn-primary" (click)="showAddForm = !showAddForm">
+      {{ showAddForm ? 'Cancel' : 'Add New Record' }}
+    </button>
+  </div>
+
+  <!-- Add Record Form -->
+  <div class="form-container" *ngIf="showAddForm">
+    <h2>{{ editingRecord ? 'Edit Medical Record' : 'Add New Medical Record' }}</h2>
+    <form (ngSubmit)="saveRecord()" #recordForm="ngForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="pet">Select Pet *</label>
+          <select id="pet" [(ngModel)]="currentRecord.pet" name="pet" required>
+            <option value="">Choose a pet</option>
+            <option *ngFor="let pet of pets" [ngValue]="pet">{{ pet.name }} ({{ pet.breed }})</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="veterinarian">Veterinarian *</label>
+          <select id="veterinarian" [(ngModel)]="currentRecord.veterinarian" name="veterinarian" required>
+            <option value="">Choose a veterinarian</option>
+            <option *ngFor="let vet of veterinarians" [ngValue]="vet">
+              Dr. {{ vet.name }} - {{ vet.specialization }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="visitDate">Visit Date *</label>
+        <input type="date" id="visitDate" [(ngModel)]="currentRecord.visitDate" name="visitDate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="diagnosis">Diagnosis *</label>
+        <textarea id="diagnosis" [(ngModel)]="currentRecord.diagnosis" name="diagnosis" rows="3" 
+                  placeholder="Enter diagnosis details..." required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="treatment">Treatment *</label>
+        <textarea id="treatment" [(ngModel)]="currentRecord.treatment" name="treatment" rows="3" 
+                  placeholder="Enter treatment details..." required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="vaccinations">Vaccinations</label>
+        <textarea id="vaccinations" [(ngModel)]="currentRecord.vaccinations" name="vaccinations" rows="2" 
+                  placeholder="Enter vaccination information..."></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="!recordForm.form.valid">
+          {{ editingRecord ? 'Update Record' : 'Add Record' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancelForm()">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Filter Controls -->
+  <div class="filter-container">
+    <div class="filter-group">
+      <label for="petFilter">Filter by Pet:</label>
+      <select id="petFilter" [(ngModel)]="selectedPetId" (ngModelChange)="filterRecords()">
+        <option value="">All Pets</option>
+        <option *ngFor="let pet of pets" [value]="pet.id">{{ pet.name }}</option>
+      </select>
+    </div>
+    
+    <div class="filter-group">
+      <label for="vetFilter">Filter by Veterinarian:</label>
+      <select id="vetFilter" [(ngModel)]="selectedVetId" (ngModelChange)="filterRecords()">
+        <option value="">All Veterinarians</option>
+        <option *ngFor="let vet of veterinarians" [value]="vet.id">Dr. {{ vet.name }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Medical Records List -->
+  <div class="records-grid">
+    <div class="record-card" *ngFor="let record of filteredRecords">
+      <div class="record-header">
+        <div class="record-info">
+          <h3>{{ record.pet?.name }}</h3>
+          <p class="visit-date">{{ record.visitDate | date:'fullDate' }}</p>
+        </div>
+        <div class="record-actions">
+          <button class="btn btn-sm btn-secondary" (click)="editRecord(record)">Edit</button>
+          <button class="btn btn-sm btn-danger" (click)="deleteRecord(record.id!)">Delete</button>
+        </div>
+      </div>
+
+      <div class="record-details">
+        <div class="detail-section">
+          <h4>Veterinarian</h4>
+          <p>Dr. {{ record.veterinarian?.name }} - {{ record.veterinarian?.specialization }}</p>
+        </div>
+
+        <div class="detail-section">
+          <h4>Diagnosis</h4>
+          <p>{{ record.diagnosis }}</p>
+        </div>
+
+        <div class="detail-section">
+          <h4>Treatment</h4>
+          <p>{{ record.treatment }}</p>
+        </div>
+
+        <div class="detail-section" *ngIf="record.vaccinations">
+          <h4>Vaccinations</h4>
+          <p>{{ record.vaccinations }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="filteredRecords.length === 0">
+    <div class="empty-icon">📋</div>
+    <h3>No medical records found</h3>
+    <p *ngIf="selectedPetId || selectedVetId">No records match the selected filters.</p>
+    <p *ngIf="!selectedPetId && !selectedVetId">No medical records have been added yet.</p>
+    <button class="btn btn-primary" (click)="showAddForm = true">Add First Medical Record</button>
+  </div>
+</div>

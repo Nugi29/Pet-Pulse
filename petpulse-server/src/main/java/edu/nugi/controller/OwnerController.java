@@ -31,4 +31,13 @@ public class OwnerController {
         service.createOwner(owner);
     }
 
+    @PutMapping("/update/{id}")
+    public Owner updateOwner(@PathVariable Integer id, @RequestBody Owner owner) {
+        return service.updateOwner(id, owner);
+    }
+    @DeleteMapping("/delete/{id}")
+    public void deleteOwner(@PathVariable Integer id) {
+        service.deleteOwner(id);
+    }
+
 }

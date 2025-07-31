@@ -1,0 +1,95 @@
+<div class="pets-container">
+  <div class="header">
+    <h1>Pet Management</h1>
+    <button class="btn btn-primary" (click)="showAddForm = !showAddForm">
+      {{ showAddForm ? 'Cancel' : 'Add New Pet' }}
+    </button>
+  </div>
+
+  <!-- Add Pet Form -->
+  <div class="form-container" *ngIf="showAddForm">
+    <h2>{{ editingPet ? 'Edit Pet' : 'Add New Pet' }}</h2>
+    <form (ngSubmit)="savePet()" #petForm="ngForm">
+      <div class="form-group">
+        <label for="name">Pet Name *</label>
+        <input type="text" id="name" [(ngModel)]="currentPet.name" name="name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="breed">Breed *</label>
+        <input type="text" id="breed" [(ngModel)]="currentPet.breed" name="breed" required>
+      </div>
+
+      <div class="form-group">
+        <label for="dob">Date of Birth *</label>
+        <input type="date" id="dob" [(ngModel)]="currentPet.dob" name="dob" required>
+      </div>
+
+      <div class="form-group">
+        <label for="pettype">Pet Type *</label>
+        <select id="pettype" [(ngModel)]="currentPet.pettype" name="pettype" required>
+          <option value="">Select Pet Type</option>
+          <option *ngFor="let type of petTypes" [ngValue]="type">{{ type.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Gender *</label>
+        <select id="gender" [(ngModel)]="currentPet.gender" name="gender" required>
+          <option value="">Select Gender</option>
+          <option *ngFor="let g of genders" [ngValue]="g">{{ g.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="owner">Owner *</label>
+        <select id="owner" [(ngModel)]="currentPet.owner" name="owner" required>
+          <option value="">Select Owner</option>
+          <option *ngFor="let owner of owners" [ngValue]="owner">{{ owner.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="!petForm.form.valid">
+          {{ editingPet ? 'Update Pet' : 'Add Pet' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancelForm()">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Pets List -->
+  <div class="pets-grid">
+    <div class="pet-card" *ngFor="let pet of pets">
+      <div class="pet-header">
+        <h3>{{ pet.name }}</h3>
+        <div class="pet-actions">
+          <button class="btn btn-sm btn-secondary" (click)="editPet(pet)">Edit</button>
+          <button class="btn btn-sm btn-danger" (click)="deletePet(pet.id!)">Delete</button>
+        </div>
+      </div>
+      <div class="pet-info">
+        <p><strong>Breed:</strong> {{ pet.breed }}</p>
+        <p><strong>Type:</strong> {{ pet.pettype?.name }}</p>
+        <p><strong>Gender:</strong> {{ pet.gender?.name }}</p>
+        <p><strong>Date of Birth:</strong> {{ pet.dob | date }}</p>
+        <p><strong>Owner:</strong> {{ pet.owner?.name }}</p>
+      </div>
+      <div class="pet-stats">
+        <span class="stat">
+          <strong>{{ pet.appointments?.length || 0 }}</strong> Appointments
+        </span>
+        <span class="stat">
+          <strong>{{ pet.medicalrecords?.length || 0 }}</strong> Records
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="pets.length === 0">
+    <div class="empty-icon">🐕</div>
+    <h3>No pets found</h3>
+    <p>Start by adding your first pet to the system.</p>
+    <button class="btn btn-primary" (click)="showAddForm = true">Add Your First Pet</button>
+  </div>
+</div>
